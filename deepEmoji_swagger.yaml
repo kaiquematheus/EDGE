@@ -1,0 +1,117 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: deep emoji
+  description: It takes a sentence as input and produces the top 5 emoji classification and its confidence interval as an output.
+  contact: {}
+host: 127.0.0.1:31651
+basePath: /deepmoji/v1
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /input:
+    post:
+      description: Input the paragraph to get top 5 emoji class
+      summary: deepEmojiPOST
+      tags:
+      - deepEmoji
+      operationId: deepEmojiPOST
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: text
+        in: formData
+        required: true
+        type: string
+        description: sentence for getting an emoji class
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Response'
+          headers: {}
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+          headers: {}
+  /getmoji:
+    post:
+      description: Get the image of a specific class
+      summary: toRetrieveEmojiPOST
+      tags:
+      - deepEmoji
+      operationId: toRetrieveEmojiPOST
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: class
+        in: formData
+        required: true
+        type: string
+        description: to retrieve the image of particular class
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: string
+            format: binary
+          headers: {}
+        '400':
+          description: Bad Request
+          schema: {}
+        '202':
+          description: input should be in int format / value not in range
+          schema: {}
+definitions:
+  Emoji:
+    title: Emoji
+    type: object
+    properties:
+      class:
+        description: Classification of emoji
+        example: 23
+        type: integer
+        format: int32
+      confidenceInterval:
+        description: Confidence interval of emoji classification
+        example: 96.564165105
+        type: number
+        format: double
+    required:
+    - class
+    - Confidence
+  Response:
+    title: Response
+    description: ''
+    type: object
+    properties:
+      Emoji_1:
+        $ref: '#/definitions/Emoji'
+      Emoji_2:
+        $ref: '#/definitions/Emoji'
+      Emoji_3:
+        $ref: '#/definitions/Emoji'
+      Emoji_4:
+        $ref: '#/definitions/Emoji'
+      Emoji_5:
+        $ref: '#/definitions/Emoji'
+    required:
+    - Emoji_1
+    - Emoji_2
+    - Emoji_3
+    - Emoji_4
+    - Emoji_5
+tags:
+- name: deepEmoji
+  description: ''
